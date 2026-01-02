@@ -17,13 +17,16 @@ namespace AssignmentS11
         public static Plugin Instance;
 
         public override void OnEnabled()
+
         {
+			Instance = this;
             Log.Info("Enable assignment plugin by imscared.exe");
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
+            Instance = null;
             Log.Info("Disabled assignment plugin by imscared.exe");
             base.OnDisabled();
         }

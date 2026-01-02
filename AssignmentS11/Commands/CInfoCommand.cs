@@ -15,7 +15,7 @@ namespace AssignmentS11.Commands
         {
             if (!Plugin.Instance.NameCommandEnabled)
             {
-                response = ".name is not enabled! Enable with .enablecinfo.";
+                response = ".cinfo is not enabled! Enable with .enablecinfo.";
                 return false;
             }
             

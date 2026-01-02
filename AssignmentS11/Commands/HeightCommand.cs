@@ -14,10 +14,18 @@ namespace AssignmentS11.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            if (!Plugin.Instance.HeightCommandEnabled)
+            {
+                response = ".height is not enabled! Enable with .enableheight.";
+                return false;
+            }
+            
             float min = Plugin.Instance.Config.MinimumHeight;
             float max = Plugin.Instance.Config.MaximumHeight;
-            string minFi = Plugin.Instance.Config.MinimumHeightFI;
-            string maxFi = Plugin.Instance.Config.MaximumHeightFI;
+            int minF = Plugin.Instance.Config.MinimumHeightF;
+            int minI = Plugin.Instance.Config.MinimumHeightI;
+            int maxF = Plugin.Instance.Config.MaximumHeightF;
+            int maxI = Plugin.Instance.Config.MaximumHeightF;
             
             Player player = Player.Get((CommandSender)sender);
 
@@ -27,6 +35,7 @@ namespace AssignmentS11.Commands
             {
                 SetHeight(player, Plugin.Instance.Config.ReferenceHeight, out response);
                 response = "Height has been reset.";
+                return true;
             }
 
             double height = CalculateHeightCm(arguments.At(0), out result);
@@ -37,7 +46,7 @@ namespace AssignmentS11.Commands
                 return true;
             }
 
-            response = $"Invalid height formatting! Enter a height between {min} cm and {max} cm ({minFi} and {maxFi}).";
+            response = $"Invalid height formatting! Enter a height between {min} cm and {max} cm ({minF}'{minI}\" and {maxF}'{maxI}\").";
             return false;
         }
 
@@ -49,18 +58,6 @@ namespace AssignmentS11.Commands
             string num = "";
             int len = height.Length;
             
-            if (height.EndsWith("cm"))
-            {
-                num = height.Substring(0, len - 2);
-                if (!int.TryParse(num, out cm))
-                {
-                    response = "UF"; // UF - unknown format
-                    return 0;
-                }
-
-                response = "OK";
-                return (double)cm;
-            }
 
             if (height.EndsWith("'") && (!height.Contains("\"")))
             {
@@ -95,30 +92,54 @@ namespace AssignmentS11.Commands
                 
 
             }
+            
+            /*if (height.EndsWith("cm"))
+            {
+                num = height.Substring(0, len - 2);
+                if (!int.TryParse(num, out cm))
+                {
+                    response = "UF"; // UF - unknown format
+                    return 0;
+                }
 
-            response = "UF";
-            return 0;
+                response = "OK";
+                return (double)cm;
+            }*/
+            
+            if (!int.TryParse(height, out cm))
+            {
+                response = "UF"; // UF - unknown format
+                return 0;
+            }
+
+            response = "OK";
+            return (double)cm;
+
+            /*response = "UF";
+            return 0;*/
         }
 
         private void SetHeight(Player player, double height, out string response)
         {
             float min = Plugin.Instance.Config.MinimumHeight;
             float max = Plugin.Instance.Config.MaximumHeight;
-            string minFi = Plugin.Instance.Config.MinimumHeightFI;
-            string maxFi = Plugin.Instance.Config.MaximumHeightFI;
+            int minF = Plugin.Instance.Config.MinimumHeightF;
+            int minI = Plugin.Instance.Config.MinimumHeightI;
+            int maxF = Plugin.Instance.Config.MaximumHeightF;
+            int maxI = Plugin.Instance.Config.MaximumHeightF;
             float reference = Plugin.Instance.Config.ReferenceHeight;
 
             response = $"Set height to {height} cm.";
-
+            
             if (height < min)
             {
                 height = reference;
-                response = $"Your entered height was lower than {min} cm ({minFi}), therefore your height was reset.";
+                response = $"Your entered height was lower than {min} cm ({minF}'{minI}\"), therefore your height was reset.";
             }
             else if (height > max)
             {
                 height = reference;
-                response = $"Your entered height was higher than {max} cm ({maxFi}), therefore your height was reset.";
+                response = $"Your entered height was higher than {max} cm ({maxF}'{maxI}\"), therefore your height was reset.";
             }
             
             float scaledHeight = (float)(height / reference);
