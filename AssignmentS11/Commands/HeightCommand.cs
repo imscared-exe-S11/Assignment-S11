@@ -126,7 +126,7 @@ namespace AssignmentS11.Commands
             int minF = Plugin.Instance.Config.MinimumHeightF;
             int minI = Plugin.Instance.Config.MinimumHeightI;
             int maxF = Plugin.Instance.Config.MaximumHeightF;
-            int maxI = Plugin.Instance.Config.MaximumHeightF;
+            int maxI = Plugin.Instance.Config.MaximumHeightI;
             float reference = Plugin.Instance.Config.ReferenceHeight;
 
             response = $"Set height to {height} cm.";
@@ -147,4 +147,5 @@ namespace AssignmentS11.Commands
             player.SetScale(new Vector3(1, scaledHeight, 1));
         }
     }
+
 }
