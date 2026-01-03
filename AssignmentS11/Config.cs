@@ -12,7 +12,7 @@ namespace AssignmentS11
         public float MinimumHeight { get; set; } = 160;
         
         [Description("Maximum height (float, cm)")] 
-        public float MaximumHeight { get; set; } = 200;
+        public float MaximumHeight { get; set; } = 201;
         
         [Description("Reference height (float, cm) (default height)")]
         public float ReferenceHeight { get; set; } = 180;
@@ -29,4 +29,5 @@ namespace AssignmentS11
         [Description("Minimum height (int, inches) (only for displaying)")]
         public int MaximumHeightI { get; set; } = 7;
     }
+
 }
